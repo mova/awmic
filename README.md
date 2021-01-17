@@ -1,6 +1,6 @@
 ## Simple microphone indicator for awesome wm
 
-The icon  tells you that an app is listening AND the mic isn't muted ( otherwise: ).
+The icon `` tells you that an app is listening AND the mic isn't muted ( otherwise: ``).
 
 Scroll to change the amplification for the apps, that are currently listening.
 Click to toggle the input for these applications.
