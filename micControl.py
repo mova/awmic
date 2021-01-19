@@ -33,9 +33,14 @@ def is_recording(o: pulsectl.PulseSourceOutputInfo):
 
 
 def query():
-    if any([is_recording(r) for r in recorders]):
+    if len(recorders)==0:
+        #Nobody recoding
+        return "ﴣ"
+    elif any([is_recording(r) for r in recorders]):
+        #Somebody ist recording and not muted
         return ""
     else:
+        #Somebody ist recording and muted
         return ""
 
 
