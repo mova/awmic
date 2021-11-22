@@ -15,7 +15,7 @@ def is_recorder(o: pulsectl.PulseSourceOutputInfo):
     # All apps record stereo
     if "channel_count" not in vars(o):
         return False
-    elif o.channel_count < 2:
+    elif o.channel_count < 1:
         return False
 
     return True
