@@ -21,6 +21,9 @@ def is_recorder(o: pulsectl.PulseSourceOutputInfo):
     return True
 
 
+output_dev_list = pulse.sink_list()
+players = pulse.sink_input_list()
+input_dev_list = pulse.source_list()
 recorders = [e for e in pulse.source_output_list() if is_recorder(e)]
 
 
@@ -29,19 +32,32 @@ def is_recording(o: pulsectl.PulseSourceOutputInfo):
         return False
     if o.volume.values == [0, 0]:
         return False
+    source: pulsectl.PulseSourceInfo = input_dev_list[o.source-1]
+    if source.mute == 1:
+        return False
+    if source.volume.values == [0, 0]:
+        return False
+
     return True
+from time import sleep
+import audioop
+import pyaudio
+chunk = 1024
+
+stream = p.open(format=pyaudio.paInt16,channels=2, rate=44100, input=True, frames_per_buffer=chunk)
 
 
 def query():
-    if len(recorders)==0:
-        #Nobody recoding
-        return "ﴣ"
+    if len(recorders) == 0:
+        # Nobody recoding
+        out = ""
     elif any([is_recording(r) for r in recorders]):
-        #Somebody ist recording and not muted
-        return ""
+        # Somebody ist recording and not muted
+        out = ""
     else:
-        #Somebody ist recording and muted
-        return ""
+        # Somebody ist recording and muted
+        out = ""
+    return f"<span>{out}</span>"
 
 
 def toggle():

@@ -13,19 +13,21 @@ function indicator:init(args)
     self.lowerMic=self.micscript .. ' --lower'
     self.toggleMic=self.micscript .. ' --toggle'
 
-    self.widget = awful.widget.watch(self.queryMic, 1)
+    self.widget = awful.widget.watch(self.queryMic, 1, function(widget, stdout)
+        widget:set_markup(("<span>%s</span>"):format(stdout))
+        return
+    end)
 
     self.widget.font=args.font or "FiraCode Nerd Font 12"
 
     self.widget:buttons(awful.util.table.join(
-        awful.button({ }, 4, function() awful.spawn(self.raiseMic, false) end),
-        awful.button({ }, 5, function() awful.spawn(self.lowerMic, false) end),
-        awful.button({ }, 1, function() awful.spawn(self.toggleMic, false) end)
+    awful.button({ }, 4, function() awful.spawn(self.raiseMic, false) end),
+    awful.button({ }, 5, function() awful.spawn(self.lowerMic, false) end),
+    awful.button({ }, 1, function() awful.spawn(self.toggleMic, false) end)
     ))
 
     return self
 end
-
 
 return setmetatable(indicator, {
     __call = indicator.new,
